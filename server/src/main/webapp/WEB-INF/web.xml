@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+
     <servlet>
-        <servlet-name>MyServlet</servlet-name>
-        <servlet-class>com.lucevent.keepup.server.MyServlet</servlet-class>
+        <servlet-name>AppServlet</servlet-name>
+        <servlet-class>com.lucevent.keepup.server.AppServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>MyServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <servlet-name>AppServlet</servlet-name>
+        <url-pattern>/app</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>WebServlet</servlet-name>
+        <servlet-class>com.lucevent.keepup.server.WebServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebServlet</servlet-name>
+        <url-pattern>/web</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
+    <filter>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

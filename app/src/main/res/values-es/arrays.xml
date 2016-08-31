@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="date_messages">
+        <item>Hace %d segundos</item>
+        <item>Hace %d minutos</item>
+        <item>Hace %d horas</item>
+        <item>Hace %d días</item>
+        <item>Hace %d meses</item>
+        <item>Hace %d años</item>
+    </string-array>
+    <string-array name="sports">
+        <item>Fútbol</item>
+    </string-array>
+
+</resources>

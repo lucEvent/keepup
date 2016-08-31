@@ -1,8 +1,97 @@
 <resources>
-    <string name="app_name">KeepUp</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_name" translatable="false">KeepApp</string>
+    <string name="app_version" translatable="false">0.1.0</string>
+    <string name="version">version</string>
 
-    <string name="action_settings">Settings</string>
+    <!-- * ******************** Labels **************************** * -->
+    <string name="settings">Settings</string>
+    <string name="statistics">Statistics</string>
+    <string name="about">About</string>
+    <string name="share_with">Share with</string>
+    <string name="notification">Notification</string>
+    <string name="notify">Notify</string>
+    <string name="disabled">Disabled</string>
+    <string name="enabled">Enabled</string>
+    <string name="reset">Reset</string>
+
+    <string name="sports">Sports</string>
+
+    <!-- * ******************** Buttons **************************** * -->
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="done">Done</string>
+    <string name="go_back">Go back</string>
+    <string name="continue_">Continue</string>
+    <string name="try_again">Try again</string>
+    <string name="close">Close</string>
+    <string name="ok">OK</string>
+    <string name="restart">Restart</string>
+    <string name="thats_it">That\'s it</string>
+
+
+    <!-- * ******************** Hints **************************** * -->
+    <string name="hint_pref_pro_mode">Enter PRO code</string>
+    <string name="search">Search</string>
+
+
+    <!-- * ******************** Messages **************************** * -->
+    <string name="msg_must_select_at_least_one">Must select at least ONE</string>
+    <string name="msg_confirm_to_go_back">Confirm to go back</string>
+    <string name="msg_confirm_to_delete">Confirm to delete</string>
+    <string name="msg_cant_load_content">Can\'t load content</string>
+    <string name="msg_no_internet_connection">No internet connection</string>
+    <string name="msg_invalid_code">Invalid code</string>
+    <string name="msg_unlocked_statistics">Statistics unlocked</string>
+    <string name="msg_app_must_restart_to_apply_changes">App must be restarted to apply changes</string>
+
+
+    <!-- * *************** Activities and fragment's titles ********************* * -->
+    <string name="title_frg_settings_of">Settings of %1$s</string>
+
+    <!-- ***************************** Menu strings ********************************** -->
+    <string name="menu_favorite">Favorite</string>
+    <string name="menu_delete_all">Delete all</string>
+
+
+    <!-- ***************************** Settings strings ********************************** -->
+    <string name="pref_title_general">General</string>
+    <string name="pref_title_data">Data</string>
+
+    <string name="pref_pro_code">PRO code</string>
+
+    <string name="pref_pro_code_key" translatable="false">app_pref1</string>
+
+
+    <!-- ***************************** * Sport strings * ********************************** -->
+    <string name="team">Team</string>
+    <string name="points">Pts</string>
+    <string name="games">GP</string>
+    <string name="won">W</string>
+    <string name="draw">D</string>
+    <string name="lost">L</string>
+    <string name="scored">F</string>
+    <string name="received">A</string>
+
+
+    <!-- ***************************** ***************** ********************************** -->
+    <string name="about_content_header" translatable="false">KeepApp 0.1.0</string>
+    <string name="about_content_contact" translatable="false">Developed by Rafael J. Lucena\nContact: rafaa89(at)gmail.com</string>
+    <string name="about_content_title_new_features" translatable="false">Last features and improvements:</string>
+    <string name="about_content_new_features" translatable="false">
+        Version 0.1.0 2016-09-XX:\nFirst release!\n
+    </string>
+    <string name="about_content_title_comming_soon" translatable="false">What\'s coming soon?:</string>
+    <string name="about_content_comming_soon" translatable="false">
+        More content
+    </string>
+
+
+    <!-- ***************************** ***************** ********************************** -->
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+
 </resources>

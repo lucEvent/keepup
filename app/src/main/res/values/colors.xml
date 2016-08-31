@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimary">#3949AB</color>
+    <color name="colorPrimaryDark">#283593</color>
+    <color name="colorAccent">#AFB42B</color>
+    <color name="colorAccentDark_deprecated">#D32F2F</color>
+
+    <color name="default_background">#feee</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="disabled">#ffcccccc</color>
+    <color name="ripple_pressed">#22000000</color>
+    <color name="ripple_pressed_dark">#55999999</color>
+
+
 </resources>

@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_title_general">
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:hint="@string/hint_pref_pro_mode"
+            android:key="@string/pref_pro_code_key"
+            android:title="@string/pref_pro_code"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

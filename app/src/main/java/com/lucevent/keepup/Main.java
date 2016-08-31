@@ -1,9 +1,10 @@
 package com.lucevent.keepup;
 
+import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,9 +13,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 
-public class Main extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.lucevent.keepup.data.util.Sport;
+import com.lucevent.keepup.kernel.AppData;
+import com.lucevent.keepup.kernel.SportsManager;
+import com.lucevent.keepup.view.fragment.AboutFragment;
+import com.lucevent.keepup.view.fragment.AppSettingsFragment;
+import com.lucevent.keepup.view.fragment.SportFragment;
+import com.lucevent.keepup.view.fragment.StatisticsFragment;
+
+import java.lang.ref.WeakReference;
+
+public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SportsManager dataManager;
+    public Handler handler;
+
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,84 +40,133 @@ public class Main extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        handler = new Handler(this);
+        AppSettings.initialize(this, handler);
+        dataManager = new SportsManager(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        assert navigationView != null : "Navigation view is null";
         navigationView.setNavigationItemSelectedListener(this);
+
+        currentFragment = com.lucevent.keepup.view.fragment.SportFragment.instanceFor(AppData.sports.get(0).code);
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_content, currentFragment)
+                .commit();
+
+        updateDrawer();
     }
 
     @Override
     public void onBackPressed()
     {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        else if (getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStack();
+        else super.onBackPressed();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    private void updateDrawer()
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        assert navigationView != null : "Navigation view is null";
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            navigationView.setItemIconTintList(null);
+
+        MenuItem stats = navigationView.getMenu().findItem(R.id.nav_stats);
+        if (ProSettings.areStatisticsEnabled())
+            stats.setVisible(true);
+        else
+            stats.setVisible(false);
+
+        SubMenu sites_menu = navigationView.getMenu().findItem(R.id.nav_header_sports).getSubMenu();
+        sites_menu.clear();
+
+        for (Sport sport : AppData.sports) {
+            MenuItem mi = sites_menu.add(3, sport.code, Menu.NONE, sport.name);
+            configureMenuItem(mi, sport);
+        }
+        navigationView.invalidate();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    private void configureMenuItem(MenuItem mi, Sport sport)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        int icon_res_id = R.drawable.ic_sports;
+        //       switch ()
+// TODO: 10/06/2016
+        mi.setIcon(icon_res_id);
+        mi.setCheckable(true);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    private Fragment currentFragment, previousFragment;
+
     @Override
-    public boolean onNavigationItemSelected(MenuItem item)
+    public boolean onNavigationItemSelected(@NonNull MenuItem item)
     {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        Fragment fragment;
+        String title;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (item.getItemId()) {
+            case R.id.nav_stats:
+                fragment = new StatisticsFragment();
+                title = getString(R.string.statistics);
+                break;
+            case R.id.nav_settings:
+                fragment = new AppSettingsFragment();
+                title = getString(R.string.settings);
+                break;
+            case R.id.nav_about:
+                fragment = new AboutFragment();
+                title = getString(R.string.about);
+                break;
+            default:
+                Sport sport = AppData.getSportByCode(item.getItemId());
+                fragment = SportFragment.instanceFor(sport.code);
+                title = sport.name;
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        previousFragment = currentFragment;
+        currentFragment = fragment;
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_content, fragment)
+                .commit();
+
+        setTitle(title);
+
         return true;
     }
+
+    static class Handler extends android.os.Handler {
+
+        private final WeakReference<Main> context;
+
+        Handler(Main context)
+        {
+            this.context = new WeakReference<>(context);
+        }
+
+        @Override
+        public void handleMessage(Message msg)
+        {
+            Main service = context.get();
+            switch (msg.what) {
+                default:
+                    AppSettings.printerror("[SPORTSMAIN] OPTION UNKNOWN: " + msg.what, null);
+            }
+        }
+
+    }
+
 }
